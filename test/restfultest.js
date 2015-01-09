@@ -6,11 +6,45 @@
 var superagent = require('superagent');
 var expect = require('expect.js');
 
+describe('authenticate api test',function(){
+    it('login&takeToken', function(done){
+        superagent.post('http://localhost:3000/authenticate/')
+            .send({
+                username:'john',
+                password:'foobar'
+            })
+            .end(function(err,res){
+                expect(err).to.eql(null);
+                expect(typeof res.body).to.eql('object');
+                //console.log(res.body.token.toString().length,res.body);
+                expect(res.body.token.toString().length).to.eql(200);
+                done();
+            })
+    })
+});
+
+
 describe('timetrack api test ', function(){
-    var id;
+    var token;
+
+    it('login&takeToken', function(done){
+        superagent.post('http://localhost:3000/authenticate/')
+            .send({
+                username:'john',
+                password:'foobar'
+            })
+            .end(function(err,res){
+                expect(err).to.eql(null);
+                expect(typeof res.body).to.eql('object');
+                //console.log(res.body.token.toString().length,res.body);
+                expect(res.body.token.toString().length).to.eql(200);
+                token = res.body.token;
+                done();
+            })
+    });
 
     it('add a work', function(done){
-        superagent.post('http://localhost:3000/timetrack/')
+        superagent.post('http://localhost:3000/api/timetrack/')
             .send({ hours: '1'
                 , workdate: '2014-01-01'
                 , description: '1'
@@ -24,7 +58,7 @@ describe('timetrack api test ', function(){
     });
 
     it('retrieves an work', function(done){
-        superagent.get('http://localhost:3000/timetrack/1')
+        superagent.get('http://localhost:3000/api/timetrack/1')
             .end(function(err, res){
                 // console.log(res.body)
                 expect(err).to.eql(null);
@@ -36,7 +70,7 @@ describe('timetrack api test ', function(){
             })
     });
 
-
+});
 
 /*
     it('retrieves an object', function(done){
@@ -98,4 +132,6 @@ describe('timetrack api test ', function(){
             })
     })
 */
-});
+
+
+

@@ -4,11 +4,15 @@
 
 
 var timetrack = require('./routes/timetrack');
+var authenticate = require('./routes/authenticate');
 
 
 module.exports = function(app){
 
 //timetrak restful api,
-    app.post('/timetrack',timetrack.add);
-    app.get('/timetrack/:id',timetrack.show);
+    app.post('/api/timetrack',timetrack.add);
+    app.get('/api/timetrack/:id',timetrack.show);
+
+// authenticate restful api,
+    app.post('/authenticate/',authenticate.auth);
 };
