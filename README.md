@@ -15,7 +15,7 @@ Third, run the initial script to create the database table.
 ```sh
 node ./model/init.js
 ```
-then, you can run the app, the app is listen on port 3000
+then, you can run the app, the app is listening on port 3000
 
 ```sh
 node ./bin/www
