@@ -8,7 +8,14 @@ npm install
 npm install -g mocha
 
 ```
-Then, run the app:
+Second, modify the config file ./lib/config.js,
+
+Third, run the initial script to create the database table.
+
+```sh
+node ./model/init.js
+```
+then, you can run the app, the app is listen on port 3000
 
 ```sh
 node ./bin/www
