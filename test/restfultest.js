@@ -7,7 +7,9 @@ var superagent = require('superagent');
 var expect = require('expect.js');
 
 describe('authenticate api test',function(){
-    it('login&takeToken', function(done){
+    var token;
+
+    it('login&createToken', function(done){
         superagent.post('http://localhost:3000/authenticate/')
             .send({
                 username:'john',
@@ -18,30 +20,26 @@ describe('authenticate api test',function(){
                 expect(typeof res.body).to.eql('object');
                 //console.log(res.body.token.toString().length,res.body);
                 expect(res.body.token.toString().length).to.eql(200);
+                token=res.body.token;
+                done();
+            })
+    });
+
+    it('test jwt token',function(done){
+        superagent.get('http://localhost:3000/app/restricted/')
+            .set({'authorization': 'Bearer '+token})
+            .end(function(err,res){
+                console.log(res);
+                expect(err).to.equal(null);
+                expect(res.status).to.eql('200');
                 done();
             })
     })
+
 });
 
 
 describe('timetrack api test ', function(){
-    var token;
-
-    it('login&takeToken', function(done){
-        superagent.post('http://localhost:3000/authenticate/')
-            .send({
-                username:'john',
-                password:'foobar'
-            })
-            .end(function(err,res){
-                expect(err).to.eql(null);
-                expect(typeof res.body).to.eql('object');
-                //console.log(res.body.token.toString().length,res.body);
-                expect(res.body.token.toString().length).to.eql(200);
-                token = res.body.token;
-                done();
-            })
-    });
 
     it('add a work', function(done){
         superagent.post('http://localhost:3000/api/timetrack/')

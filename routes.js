@@ -15,4 +15,13 @@ module.exports = function(app){
 
 // authenticate restful api,
     app.post('/authenticate/',authenticate.auth);
+
+//jwt test api
+
+    app.get('/app/restricted',function (req,res){
+        console.log('user' + req.user.email+'is calling /api/restricted');
+        res.json({
+            name:'foo'
+        })
+    })
 };
