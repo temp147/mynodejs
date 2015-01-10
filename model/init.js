@@ -29,6 +29,17 @@ var createTableWork = "Create table if not exists work("
     +"description LONGTEXT,"
     +"PRIMARY KEY(id))";
 
+var createTableUser = "Create table if not exists user("
+    +"id INT(10) not NULL AUTO_INCREMENT,"
+    +"firstname varchar(16),"
+    +"lastname varchar(16),"
+    +"password varchar(256),"
+    +"email varchar(64),"
+    +"PRIMARY KEY(id))";
+
+var insertuser ="insert into user " +
+    "(firstname,lastname,password,email)" +
+    "values('john','Deo','foobar','John@test.com');";
 
 //execute the create table script
 mysqlpool.getConnection(function(err,conn){
@@ -49,6 +60,12 @@ mysqlpool.getConnection(function(err,conn){
         async.series([
                 function(cb){
                     conn.query(createTableWork,cb)
+                },
+                function(cb){
+                    conn.query(createTableUser,cb)
+                },
+                function(cb){
+                    conn.query(insertuser,cb)
                 }
             ],
             function (err) {
@@ -66,4 +83,3 @@ mysqlpool.getConnection(function(err,conn){
         );
     });
 });
-

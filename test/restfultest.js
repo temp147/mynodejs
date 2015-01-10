@@ -29,12 +29,55 @@ describe('authenticate api test',function(){
         superagent.get('http://localhost:3000/app/restricted/')
             .set({'authorization': 'Bearer '+token})
             .end(function(err,res){
-                console.log(res);
+//                console.log(res);
                 expect(err).to.equal(null);
                 expect(res.status).to.eql('200');
                 done();
             })
-    })
+    });
+
+
+    it('add a work with jwt', function(done){
+        superagent.post('http://localhost:3000/app/timetrack/')
+            .send({ hours: '1'
+                , workdate: '2014-01-01'
+                , description: '1'
+            })
+            .set({'authorization': 'Bearer '+token})
+            .end(function(err, res){
+//                console.log(res.text,res.text.length);
+                expect(err).to.eql(null);
+                expect(res.text.length).to.eql(13);
+                done();
+            })
+    });
+
+    it('retrieves an work with jwt', function(done){
+        superagent.get('http://localhost:3000/app/timetrack/1')
+            .set({'authorization': 'Bearer '+token})
+            .end(function(err, res){
+                // console.log(res.body)
+                expect(err).to.eql(null);
+                expect(typeof res.body).to.eql('object');
+                //console.log(res.text);
+                expect(res.text.length).to.eql(83);
+                expect(res.text).to.eql('{"id":1,"hours":1,"date":"2013-12-31T16:00:00.000Z","archived":0,"description":"1"}');
+                done();
+            })
+    });
+
+    it('get 401 with wrong jwt', function(done){
+        superagent.get('http://localhost:3000/app/timetrack/1')
+            .set({'authorization': 'Bearer '+'wrongtoken'})
+            .end(function(err, res){
+                // console.log(res.body)
+                expect(err).to.eql(null);
+                expect(typeof res.body).to.eql('object');
+                //console.log(res.text);
+                expect(res.statusCode).to.eql('401');
+                done();
+            })
+    });
 
 });
 

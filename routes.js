@@ -24,4 +24,7 @@ module.exports = function(app){
             name:'foo'
         })
     })
+
+    app.post('/app/timetrack',timetrack.add);
+    app.get('/app/timetrack/:id',timetrack.show);
 };
