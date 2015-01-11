@@ -1,27 +1,30 @@
 /**
  * Created by root on 1/8/15.
  */
-var assert = require('assert');
 var timetrack = require('../model/base.js');
+var expect = require('expect.js');
 
-
-// not work yet~~
-module.exports ={
-    setup: timetrack.delAllWork(),
-    tearDown: timetrack.delAllWork(),
-
-    'timeTrack add work ': function(test){
+// TODO:add all unit test function~~
+describe('unit test work',function(){
+    //delete all work and add one work.
+    before(function(done) {
+        timetrack.delAllWork();
         timetrack.addWork(1,'2014-01-01',1,function(err){});
-        test.equal(timetrack.countWork(function(err,rows){ return rows[0].counts}),1);
-        test.done();
-    }
-/*
-    'timeTrack add work': function(test){
-        todo.add('Delete Me');
-        test.equal(todo.getCount(),2);
-        todo.deleteAll();
-        test.equal(todo.getCount(),0);
-        test.done();
-    }
-*/
-}
+        done();
+    });
+
+    //verify if work is added successfully.
+    it('add work(should have one work)',function(done){
+        timetrack.countWork(function(err,rows){
+            expect(err).to.equal(null);
+            expect(rows[0].counts).to.equal(1);
+            done();
+        });
+    });
+
+    after(function(done){
+        timetrack.delAllWork();
+        done();
+    })
+});
+

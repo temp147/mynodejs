@@ -2,6 +2,8 @@
  * Created by root on 1/8/15.
  * Include Entity
  */
+
+
 var mysql = require('mysql');
 var async = require('async');
 var config = require('../lib/config');
@@ -16,7 +18,7 @@ var mysqlpool =  mysql.createPool({
 });
 
 function timetrack(){
-};
+}
 
 timetrack.prototype.addWork = function (hours, workdate, description, cb) {
     var query1="insert into work (hours, date, description)" +"values(?,?,?)";
@@ -27,7 +29,7 @@ timetrack.prototype.addWork = function (hours, workdate, description, cb) {
             cb(err);
         }
         //start transaction
-        conn.query('BEGIN',function(err,rows) {
+        conn.query('BEGIN',function(err) {
             if (err) {
                 //log err
                 console.log(err);
@@ -88,7 +90,7 @@ timetrack.prototype.delWorkbyID = function(id,cb){
             cb(err);
         }
         //start transaction
-        conn.query('BEGIN',function(err,rows) {
+        conn.query('BEGIN',function(err) {
             if (err) {
                 //log err
                 console.log(err);
@@ -127,7 +129,7 @@ timetrack.prototype.delAllWork = function(){
             console.log(err);
 //            cb(err,null);
         }
-        conn.query(query1,function(err,rows){
+        conn.query(query1,function(err){
             if(err){
                 console.log(err);
 //                cb(err,null);

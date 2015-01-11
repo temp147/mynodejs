@@ -6,7 +6,7 @@ var jwt = require('jsonwebtoken');  //https://npmjs.org/package/node-jsonwebtoke
 var config = require('../lib/config.js');
 var secret = config.jwtsecret;
 
-
+//TODO: set the auth use mysql or redis
 exports.auth = function(req,res){
     //verify username and password
     if(!(req.body.username=='john' && req.body.password=='foobar')){

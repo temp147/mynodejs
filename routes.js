@@ -23,8 +23,12 @@ module.exports = function(app){
         res.json({
             name:'foo'
         })
-    })
+    });
 
     app.post('/app/timetrack',timetrack.add);
     app.get('/app/timetrack/:id',timetrack.show);
+
+//TODO: add,del,option api function
+//TODO: add PassPort function in the route.
+//TODO: add an restful api using SOAP backend.
 };

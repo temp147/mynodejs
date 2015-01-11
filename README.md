@@ -21,11 +21,14 @@ then, you can run the app, the app is listening on port 3000
 node ./bin/www
 ```
 
-and use ./test/restfultest.js to test the api
+and use ./test/restfultest.js to test the restful api
 
 ```sh
 mocha ./test/restfultest.js
 ```
+and use ./test/baseunittest.js to do the unit test
 
-the ./test/baseunittest.js is not working yet~~ T_T
+```sh
+mocha ./test/baseunittest.js
+```
 

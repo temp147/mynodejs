@@ -80,6 +80,9 @@ app.use(function(err, req, res, next) {
 });
 
 
-
+//TODO: add Oauth2.0
+//TODO: add the authorization frame work
+//TODO: enhance the Serverlog
+//TODO: enhance the errorhandle
 
 module.exports = app;
