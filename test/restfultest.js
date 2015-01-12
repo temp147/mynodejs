@@ -10,7 +10,7 @@ describe('authenticate api test',function(){
     var token;
 
     it('login&createToken', function(done){
-        superagent.post('http://localhost:3000/authenticate/')
+        superagent.post('http://localhost:3000/login/')
             .send({
                 username:'john',
                 password:'foobar'

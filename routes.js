@@ -14,7 +14,12 @@ module.exports = function(app){
     app.get('/api/timetrack/:id',timetrack.show);
 
 // authenticate restful api,
-    app.post('/authenticate/',authenticate.auth);
+//TODO: make option function more reusable.
+    app.post('/login/',authenticate.auth);
+    app.options('/login/',function(req,res){
+        res.set({"allow":"POST"});
+        res.send('POST');
+    });
 
 //jwt test api
 
@@ -28,7 +33,9 @@ module.exports = function(app){
     app.post('/app/timetrack',timetrack.add);
     app.get('/app/timetrack/:id',timetrack.show);
 
+//TODO: test multi JSON string
 //TODO: add,del,option api function
 //TODO: add PassPort function in the route.
 //TODO: add an restful api using SOAP backend.
+
 };
