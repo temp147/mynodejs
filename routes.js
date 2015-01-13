@@ -5,13 +5,13 @@
 
 var timetrack = require('./routes/timetrack');
 var authenticate = require('./routes/authenticate');
-var schedule = require('../routes/schedule');
+var schedule = require('./routes/schedule');
 
-//handle the http options method
+//handle the http options method,response 204
 function option (req,res){
-    res.send('');
+    res.status(204);
+    res.send('end');
 }
-
 
 module.exports = function(app){
 
@@ -20,17 +20,19 @@ module.exports = function(app){
     app.get('/api/timetrack/:id',timetrack.show);
 
 // authenticate restful api,
-//TODO: make option function more reusable.
-    app.post('/login/',authenticate.auth);
     app.options('/login/',option);
+    app.post('/login/',authenticate.auth);
+
 
 //schedule restful api,
     app.options('/schedules',option);
     app.get('/schedules',schedule.showall);
+    app.post('/schedules',schedule.add);
 
-    app.get('/schedules/:id',schedule.showbyID)
-
-
+//schedule API by ID
+    app.options('/schedules/:id',option);
+    app.get('/schedules/:id',schedule.showbyID);
+    app.delete('/schedules/:id',schedule.deletebyID);
 
 //jwt test api
 
@@ -47,6 +49,5 @@ module.exports = function(app){
 //TODO: test multi JSON string
 //TODO: add,del,option api function
 //TODO: add PassPort function in the route.
-//TODO: add an restful api using SOAP backend.
-
+//TODO: add an restful api using SOAP backend.l
 };

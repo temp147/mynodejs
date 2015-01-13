@@ -25,6 +25,8 @@ app.set('view engine', 'ejs');
 //use jwt to protect api
 
 app.use('/app', expressJwt({secret: secret}));
+app.use('/schedules', expressJwt({secret: secret}));
+
 
 // uncomment after placing your favicon in /publi
 //app.use(favicon(__dirname + '/public/favicon.ico'));
@@ -46,8 +48,8 @@ app.use(function(err, req, res, next){
 });
 
 app.use(function (req, res, next) {
-    // Website you wish to allow to connect todo: change the cross domain config base on API
-    res.setHeader('Access-Control-Allow-Origin', '*');
+    // Website you wish to allow to connect
+    res.setHeader('Access-Control-Allow-Origin', config.crossdomain);
     // Request methods you wish to allow
     res.setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
     // Request headers you wish to allow
@@ -56,6 +58,11 @@ app.use(function (req, res, next) {
     // to the API (e.g. in case you use sessions)
     //res.setHeader('Access-Control-Allow-Credentials', true)
     // Pass to next layer of middleware
+    next();
+});
+
+app.use('/schedules',function(req,res,next){
+    res.setHeader('Content-Type', 'application/json; charset=utf-8');
     next();
 });
 // write restful api in the routes.js file
