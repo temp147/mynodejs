@@ -5,6 +5,12 @@
 
 var timetrack = require('./routes/timetrack');
 var authenticate = require('./routes/authenticate');
+var schedule = require('../routes/schedule');
+
+//handle the http options method
+function option (req,res){
+    res.send('');
+}
 
 
 module.exports = function(app){
@@ -16,10 +22,15 @@ module.exports = function(app){
 // authenticate restful api,
 //TODO: make option function more reusable.
     app.post('/login/',authenticate.auth);
-    app.options('/login/',function(req,res){
-        res.set({"allow":"POST"});
-        res.send('POST');
-    });
+    app.options('/login/',option);
+
+//schedule restful api,
+    app.options('/schedules',option);
+    app.get('/schedules',schedule.showall);
+
+    app.get('/schedules/:id',schedule.showbyID)
+
+
 
 //jwt test api
 
