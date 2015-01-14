@@ -5,6 +5,10 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+var toobusy = require('toobusy');
+//set maxlag default is 70ms set an 'average' server run at 90-100% CPU and request latency at around 200ms,10ms run at 60-70%
+toobusy.maxLag(10);
+
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
@@ -58,7 +62,14 @@ app.use(function (req, res, next) {
     // to the API (e.g. in case you use sessions)
     //res.setHeader('Access-Control-Allow-Credentials', true)
     // Pass to next layer of middleware
-    next();
+    if(toobusy()){
+        console.log('BUSY');
+        res.status(503).send("Mynodejs is stuck!!");
+    }
+    else{
+        next();
+    }
+
 });
 
 app.use('/schedules',function(req,res,next){
@@ -103,10 +114,12 @@ app.use(function(err, req, res, next) {
 
 
 //TODO: add Oauth2.0
-//TODO: add the authorization frame work
+//TODO: add the authorization frame work(mustdo,everyauth,OZ,cansecurity)
 //TODO: enhance the Serverlog
 //TODO: enhance the errorhandle
 //TODO: merge all the code.
 //TODO: Stress Testing.
+//TODO: add Event Proxy?
+
 
 module.exports = app;

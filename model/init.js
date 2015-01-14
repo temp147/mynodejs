@@ -37,6 +37,14 @@ var createTableUser = "Create table if not exists user("
     +"email varchar(64),"
     +"PRIMARY KEY(id))";
 
+var createTableSchedule = "Create table if not exists schedule("
+    +"_id INT(10) not NULL AUTO_INCREMENT,"
+    +"employeeName varchar(16),"
+    +"mobilePhone varchar(16),"
+    +"__v INT(4),"
+    +"Tasks varchar(256),"
+    +"PRIMARY KEY(_id))";
+
 var insertuser ="insert into user " +
     "(firstname,lastname,password,email)" +
     "values('john','Deo','foobar','John@test.com');";
@@ -63,6 +71,9 @@ mysqlpool.getConnection(function(err,conn){
                 },
                 function(cb){
                     conn.query(createTableUser,cb)
+                },
+                function(cb){
+                    conn.query(createTableSchedule,cb)
                 },
                 function(cb){
                     conn.query(insertuser,cb)

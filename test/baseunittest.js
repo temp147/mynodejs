@@ -18,7 +18,7 @@ describe('unit test work',function(){
     it('add work(should have one work)',function(done){
         timetrack.countWork(function(err,rows){
             expect(err).to.equal(null);
-            console.log(rows);
+            //console.log(rows);
             expect(rows[0].counts).to.equal(1);
             done();
         });
