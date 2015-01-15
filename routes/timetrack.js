@@ -9,7 +9,7 @@ exports.add = function(req,res){
     var hours =req.body.hours;
     var workdate = req.body.workdate;
     var description = req.body.description;
-    console.log(hours,workdate,description);
+    //console.log(hours,workdate,description);
     timetrack.addWork(hours,workdate,description,function(err){
         if(err) throw  err;
         res.send('{msg:success}');
@@ -19,10 +19,10 @@ exports.add = function(req,res){
 
 exports.show = function(req,res){
     var id = req.params.id;
-    console.log(id);
+    //console.log(id);
     timetrack.getWorkbyID(id,function(err,rows){
         if(err) throw err;
-        console.log(rows[0]);
+        //console.log(rows[0]);
         res.send(rows[0]);
     })
 };

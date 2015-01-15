@@ -112,7 +112,7 @@ describe('timetrack api test ', function(){
     });
 
 });
-
+//TODO: add schedule test function
 /*
     it('retrieves an object', function(done){
         superagent.get('http://localhost:3000/collections/test/'+id)

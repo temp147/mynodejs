@@ -47,7 +47,7 @@ module.exports = function(app){
     app.get('/app/timetrack/:id',timetrack.show);
 
 //TODO: test multi JSON string
-//TODO: add,del,option api function
+//TODO: put option api function
 //TODO: add PassPort function in the route.
 //TODO: add an restful api using SOAP backend.l
 };
