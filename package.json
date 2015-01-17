@@ -18,7 +18,8 @@
     "express-jwt": "~0.2.1",
     "jsonwebtoken": "~0.4.0",
     "async": "~0.9.0",
-    "toobusy": "~0.2.4"
+    "toobusy": "~0.2.4",
+    "mustbe": "~0.3.1"
   },
   "devDependencies": {
     "expect.js": "0.3.1",

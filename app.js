@@ -7,7 +7,13 @@ var bodyParser = require('body-parser');
 
 var toobusy = require('toobusy');
 //set maxlag default is 70ms set an 'average' server run at 90-100% CPU and request latency at around 200ms,10ms run at 60-70%
-toobusy.maxLag(10);
+toobusy.maxLag(70);
+
+//install the mustBe authorization framework
+var mustbe = require('mustbe');
+var mustbeconfig = require("./lib/mustbeconfig");
+mustbe.configure(mustbeconfig);
+
 
 var routes = require('./routes/index');
 var users = require('./routes/users');

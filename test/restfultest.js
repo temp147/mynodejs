@@ -56,7 +56,7 @@ describe('authenticate api test',function(){
         superagent.get('http://localhost:3000/app/timetrack/1')
             .set({'authorization': 'Bearer '+token})
             .end(function(err, res){
-                // console.log(res.body)
+                //console.log(res.body);
                 expect(err).to.eql(null);
                 expect(typeof res.body).to.eql('object');
                 //console.log(res.text);

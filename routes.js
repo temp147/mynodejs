@@ -7,6 +7,8 @@ var timetrack = require('./routes/timetrack');
 var authenticate = require('./routes/authenticate');
 var schedule = require('./routes/schedule');
 
+var mustBe = require("mustbe").routeHelpers();
+
 //handle the http options method,response 204
 function option (req,res){
     res.status(204);
@@ -17,7 +19,9 @@ module.exports = function(app){
 
 //timetrak restful api,
     app.post('/api/timetrack',timetrack.add);
-    app.get('/api/timetrack/:id',timetrack.show);
+    //app.get('/api/timetrack/:id', mustBe.authorized("users.view", timetrack.show));
+    app.get('/api/timetrack/:id',  timetrack.show);
+
 
 // authenticate restful api,
     app.options('/login/',option);
@@ -44,7 +48,7 @@ module.exports = function(app){
     });
 
     app.post('/app/timetrack',timetrack.add);
-    app.get('/app/timetrack/:id',timetrack.show);
+    app.get('/app/timetrack/:id',mustBe.authorized("users.view", timetrack.show));
 
 //TODO: test multi JSON string
 //TODO: put option api function
