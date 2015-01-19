@@ -21,9 +21,14 @@ exports.show = function(req,res){
     var id = req.params.id;
     //console.log(id);
     timetrack.getWorkbyID(id,function(err,rows){
-        if(err) throw err;
+        if(err) {
+            res.status(501).send('{msg:some error have happened}');
+            //throw err;
+        }
         //console.log(rows[0]);
-        res.send(rows[0]);
+        else{
+            res.send(rows[0]);
+        }
     })
 };
 

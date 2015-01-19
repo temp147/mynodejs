@@ -120,10 +120,8 @@ app.use(function(err, req, res, next) {
 
 
 //TODO: add Oauth2.0
-//TODO: add the authorization frame work(mustdo,everyauth,OZ,cansecurity)
 //TODO: enhance the Serverlog
 //TODO: enhance the errorhandle
-//TODO: merge all the code.
 //TODO: Stress Testing.
 //TODO: add Event Proxy?
 

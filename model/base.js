@@ -28,36 +28,39 @@ timetrack.prototype.addWork = function (hours, workdate, description, cb) {
             console.log(err);
             cb(err);
         }
-        //start transaction
-        conn.query('BEGIN',function(err) {
-            if (err) {
-                //log err
-                console.log(err);
-                conn.release();
-                cb(err);
-            }
-            async.series([
-                    function (cb) {
-                        conn.query(query1
-                            , [hours, workdate, description]
-                            , cb)
-                    }
-            ],
-                function (err) {
-                    var sql;
-                    if (err) {
-                        sql = 'ROLLBACK';
-                        //log error
-                        console.log(err);
-                    }
-                    else {
-                        sql = 'COMMIT';
-                    }
-                    conn.query(sql, conn.release());
-                    cb(err)
+        else{
+            //start transaction
+            conn.query('BEGIN',function(err) {
+                if (err) {
+                    //log err
+                    console.log(err);
+                    conn.release();
+                    cb(err);
                 }
-            )
-        })
+                async.series([
+                        function (cb) {
+                            conn.query(query1
+                                , [hours, workdate, description]
+                                , cb)
+                        }
+                    ],
+                    function (err) {
+                        var sql;
+                        if (err) {
+                            sql = 'ROLLBACK';
+                            //log error
+                            console.log(err);
+                        }
+                        else {
+                            sql = 'COMMIT';
+                        }
+                        conn.query(sql, conn.release());
+                        cb(err)
+                    }
+                )
+            })
+        }
+
     })
 };
 
@@ -69,14 +72,16 @@ timetrack.prototype.getWorkbyID = function(id,cb){
             console.log(err);
             cb(err,null);
         }
-        conn.query(query1,[id],function(err,rows){
-            if(err){
-                console.log(err);
-                cb(err,null);
-            }
-            conn.release();
-            cb(null,rows);
+        else{
+            conn.query(query1,[id],function(err,rows){
+                if(err){
+                    console.log(err);
+                    cb(err,null);
+                }
+                conn.release();
+                cb(null,rows);
             })
+        }
     })
 };
 
