@@ -1,9 +1,12 @@
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
-var logger = require('morgan');
+//var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var log4js = require('log4js');
+//load the log configuration
+log4js.configure('./lib/log4js_configuration.json');
 
 var toobusy = require('toobusy');
 //set maxlag default is 70ms set an 'average' server run at 90-100% CPU and request latency at around 200ms,10ms run at 60-70%
@@ -26,7 +29,7 @@ var config = require('./lib/config.js');
 var secret = config.jwtsecret;
 
 var app = express();
-
+//var log = log4js.getLogger('app');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -40,7 +43,10 @@ app.use('/schedules', expressJwt({secret: secret}));
 
 // uncomment after placing your favicon in /publi
 //app.use(favicon(__dirname + '/public/favicon.ico'));
-app.use(logger('dev'));
+//app.use(logger('dev')); //combined,common,dev,short,tiny
+app.use(log4js.connectLogger(log4js.getLogger("http"), { level: 'auto' }));
+
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -120,7 +126,7 @@ app.use(function(err, req, res, next) {
 
 
 //TODO: add Oauth2.0
-//TODO: enhance the Serverlog
+//TODO: enhance the Serverlog: log4js
 //TODO: enhance the errorhandle
 //TODO: Stress Testing.
 //TODO: add Event Proxy?
