@@ -25,17 +25,17 @@ timetrack.prototype.addWork = function (hours, workdate, description, cb) {
     mysqlpool.getConnection(function(err,conn){
         if(err){
             //log err
-            console.log(err);
-            cb(err);
+            //console.log(err);
+            cb(err,null);
         }
         else{
             //start transaction
             conn.query('BEGIN',function(err) {
                 if (err) {
                     //log err
-                    console.log(err);
+                    //console.log(err);
                     conn.release();
-                    cb(err);
+                    cb(err,null);
                 }
                 async.series([
                         function (cb) {
@@ -55,7 +55,7 @@ timetrack.prototype.addWork = function (hours, workdate, description, cb) {
                             sql = 'COMMIT';
                         }
                         conn.query(sql, conn.release());
-                        cb(err)
+                        cb(err,null)
                     }
                 )
             })
@@ -69,13 +69,13 @@ timetrack.prototype.getWorkbyID = function(id,cb){
         " where id=?";
     mysqlpool.getConnection(function(err,conn){
         if(err){
-            console.log(err);
+            //console.log(err);
             cb(err,null);
         }
         else{
             conn.query(query1,[id],function(err,rows){
                 if(err){
-                    console.log(err);
+                    //console.log(err);
                     cb(err,null);
                 }
                 conn.release();
@@ -91,39 +91,41 @@ timetrack.prototype.delWorkbyID = function(id,cb){
     mysqlpool.getConnection(function(err,conn){
         if(err){
             //log err
-            console.log(err);
-            cb(err);
+            //console.log(err);
+            cb(err,null);
         }
-        //start transaction
-        conn.query('BEGIN',function(err) {
-            if (err) {
-                //log err
-                console.log(err);
-                conn.release();
-                cb(err);
-            }
-            async.series([
-                    function (cb) {
-                        conn.query(query1
-                            , [id]
-                            , cb)
-                    }
-                ],
-                function (err) {
-                    var sql;
-                    if (err) {
-                        sql = 'ROLLBACK';
-                        //log error
-                        console.log(err);
-                    }
-                    else {
-                        sql = 'COMMIT';
-                    }
-                    conn.query(sql, conn.release());
-                    cb(err)
+        else{
+            //start transaction
+            conn.query('BEGIN',function(err) {
+                if (err) {
+                    //log err
+                    //console.log(err);
+                    conn.release();
+                    cb(err,null);
                 }
-            )
-        })
+                async.series([
+                        function (cb) {
+                            conn.query(query1
+                                , [id]
+                                , cb)
+                        }
+                    ],
+                    function (err) {
+                        var sql;
+                        if (err) {
+                            sql = 'ROLLBACK';
+                            //log error
+                            console.log(err);
+                        }
+                        else {
+                            sql = 'COMMIT';
+                        }
+                        conn.query(sql, conn.release());
+                        cb(err,null)
+                    }
+                )
+            })
+        }
     })
 };
 
@@ -134,14 +136,16 @@ timetrack.prototype.delAllWork = function(){
             console.log(err);
 //            cb(err,null);
         }
-        conn.query(query1,function(err){
-            if(err){
-                console.log(err);
-//                cb(err,null);
-            }
-            conn.release();
-//            cb(null,rows);
-        })
+        else{
+            conn.query(query1,function(err){
+                if(err){
+                    console.log(err);
+//                    cb(err,null);
+                }
+                conn.release();
+//                cb(null);
+            })
+        }
     })
 };
 
@@ -152,14 +156,17 @@ timetrack.prototype.countWork = function(cb){
             console.log(err);
             cb(err,null);
         }
-        conn.query(query1,function(err,rows){
-            if(err){
-                console.log(err);
-                cb(err,null);
-            }
-            conn.release();
-            cb(null,rows);
-        })
+        else{
+            conn.query(query1,function(err,rows){
+                if(err){
+                    console.log(err);
+                    cb(err,null);
+                }
+                conn.release();
+                cb(null,rows);
+            })
+        }
+
     })
 };
 

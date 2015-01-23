@@ -17,12 +17,16 @@ exports.add = function(req,res){
 
 };
 
-exports.show = function(req,res){
+exports.show = function(req,res,next){
     var id = req.params.id;
     //console.log(id);
     timetrack.getWorkbyID(id,function(err,rows){
         if(err) {
-            res.status(501).send('{msg:some error have happened}');
+            //res.status(501).send('{msg:some error have happened}');
+            err.status=501;
+            err.message="{msg:some error have happened}";
+            next(err);
+
             //throw err;
         }
         //console.log(rows[0]);
